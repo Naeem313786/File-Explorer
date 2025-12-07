@@ -26,7 +26,6 @@ app.get('/files', (req, res) => {
         if (err) {
             return res.status(500).json({ error: "Unable to access folder" });
         }
-
         const list = files.map(item => ({
             // name: item.name,
             // type: item.isDirectory() ? "folder" : "file"
@@ -37,15 +36,16 @@ app.get('/files', (req, res) => {
         res.json(list);
     });
 });
-app.get('/home', auth, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'home.html'));
-});
+
 app.get("/api/download", (req, res) => {
     const filePath = req.query.path;
     if (!filePath) return res.status(400).send("File path required");
     if (!fs.existsSync(filePath)) return res.status(404).send("File not found");
 
     res.download(filePath); 
+});
+app.get('/home', auth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'home.html'));
 });
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

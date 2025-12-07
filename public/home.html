@@ -16,6 +16,7 @@
 
 <script>
     function loadFolder(path, container) {
+        history.replaceState(null, "", "/home?path=" + decodeURIComponent(path));
         fetch(`/files?path=${encodeURIComponent(path)}`)
             .then(res => res.json())
             .then(items => {
@@ -56,13 +57,13 @@
     // Load root folder
     const rootPath = "C:/Users/conti/OneDrive/Desktop";
     setTimeout(() => {
-        loadFolder(rootPath, document.getElementById("explorer"));
+        loadFolder(rootPath, document.getElementById('explorer'));
     }, 2000);
 
     
      function downloadFile(filePath) {
         // Simple redirect triggers download
-       return window.location.href = "/api/download?path=" + encodeURIComponent(filePath);
+       window.location.href = "/api/download?path=" + encodeURIComponent(filePath);
     }
 </script>
 
