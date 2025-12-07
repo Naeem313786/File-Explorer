@@ -9,7 +9,7 @@ function auth(req, res, next) {
         req.user = verified;
         next();
     } catch (error) {
-        return res.status(400).json({ message: "Invalid token" });
+        return res.status(400).json({ message: "Invalid token OR token Expired Please LogIn Again" });
     }
 }
 module.exports = auth;

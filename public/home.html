@@ -4,15 +4,26 @@
     <title>File Explorer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        body { font-family: Arial; }
-        .folder { cursor: pointer; font-weight: bold; font-size: 20px; margin: 20px;}
-        .children { margin-left: 20px; cursor: pointer; font-size: 20px; }
+        body{ 
+            font-family: Arial;
+         }
+        .folder{ 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 20px; 
+            margin: 20px;
+        }
+        .children{ 
+            margin-left: 20px; 
+            cursor: pointer; 
+            font-size: 20px; 
+        }
     </style>
 </head>
 <body>
 
 <h2 style="font-weight: 800; font-size: 30px;">My File Explorer</h2>
-<div id="explorer" style="margin-left: 100px;">Loading Files Please Wait...</div>
+<div id="explorer" style="margin-left: 100px; font-size: 20px; font-weight: 500;">Loading Files & Folders Please Wait...</div>
 
 <script>
     function loadFolder(path, container) {
@@ -21,7 +32,7 @@
             .then(res => res.json())
             .then(items => {
 
-                container.innerHTML = ""; // clear
+                container.innerHTML = ""; 
 
                 items.forEach(item => {
                     const div = document.createElement("div");
