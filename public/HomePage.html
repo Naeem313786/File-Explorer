@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>File Explorer - Home</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 900px;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      color: #333;
+    }
+
+    .btn-group button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: 0.2s ease;
+    }
+
+    .login-btn {
+      background: #4a90e2;
+      color: white;
+    }
+    .login-btn:hover { background: #3a7ccc; }
+
+    .signup-btn {
+      background: #50c878;
+      color: white;
+    }
+    .signup-btn:hover { background: #3da860; }
+
+    .explorer {
+      border: 2px solid #e0e0e0;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .explorer h2 {
+      margin-bottom: 15px;
+      color: #444;
+    }
+
+    .file-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 20px;
+    }
+
+    .file-item {
+      background: #fafafa;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .file-item:hover {
+      background: #eaf3ff;
+      border-color: #4a90e2;
+    }
+
+    .file-icon {
+      font-size: 40px;
+      margin-bottom: 8px;
+    }
+
+    .file-name {
+      font-size: 14px;
+      color: #333;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>File Explorer</h1>
+      <div class="btn-group">
+        <button class="login-btn">Login</button>
+        <button class="signup-btn">Sign Up</button>
+      </div>
+    </div>
+
+    <div class="explorer">
+      <h2>Explore your Directory</h2>
+      <div class="file-grid">
+        <div class="file-item">
+          <div class="file-icon">📁</div>
+          <div class="file-name">Documents</div>
+        </div>
+        <div class="file-item">
+          <div class="file-icon">📁</div>
+          <div class="file-name">Images</div>
+        </div>
+        <div class="file-item">
+          <div class="file-icon">📁</div>
+          <div class="file-name">Videos</div>
+        </div>
+        <div class="file-item">
+          <div class="file-icon">📄</div>
+          <div class="file-name">notes.txt</div>
+        </div>
+        <div class="file-item">
+          <div class="file-icon">📄</div>
+          <div class="file-name">todo.json</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+     document.querySelector('.login-btn').addEventListener('click',()=>{
+         window.location.href='/login'
+    })
+     document.querySelector('.signup-btn').addEventListener('click',()=>{
+         window.location.href='/register'
+    })
+  </script>
+</body>
+</html>

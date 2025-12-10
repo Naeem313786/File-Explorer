@@ -18,49 +18,81 @@
             cursor: pointer; 
             font-size: 20px; 
         }
+        #logout{
+            padding: 13px;
+            width: 100px;
+            color: white;
+            background-color: rgb(230, 29, 29);
+            font-size: 15px;
+            font-weight: 700;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+        .hide{
+            display: none;
+        }
+        .add-folder{
+            padding: 12px;
+            font-size: 15px;
+            background-color: rgb(18, 128, 18);
+            font-weight: 800;
+            color: white;
+            margin-top: 20px;
+        }
+        #createFolderBtn{
+            padding: 10px;
+            background-color: rgb(28, 138, 28);
+            font-size: 15px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
-<h2 style="font-weight: 800; font-size: 30px;">My File Explorer</h2>
+<h2 style="font-weight: 800; font-size: 30px; text-align: center;">My File Explorer</h2>
+<button id="createFolderBtn">➕ Create Folder</button>
+<br><br>
+<button id="logout" style="float: right;">LogOut</button>
+<h2 id="currentPath"></h2>
 <div id="explorer" style="margin-left: 100px; font-size: 20px; font-weight: 500;">Loading Files & Folders Please Wait...</div>
-
 <script>
     function loadFolder(path, container) {
-        history.replaceState(null, "", "/home?path=" + decodeURIComponent(path));
+     //   history.replaceState(null, "", "/home?path=" + encodeURIComponent(path));
         fetch(`/files?path=${encodeURIComponent(path)}`)
             .then(res => res.json())
             .then(items => {
-
+                console.log(items)
+                const pathBox = document.getElementById("currentPath");
+                pathBox.innerText =path;
                 container.innerHTML = ""; 
 
                 items.forEach(item => {
-                    const div = document.createElement("div");
-
+                    const section = document.createElement("section");
                     if (item.isFolder) {
-                        div.innerHTML = `<i class="fa-regular fa-folder" style="font-size:25px; color: #FFD43B;"></i> <span class="folder">${item.name}</span>`;
+                        section.innerHTML = `<i class="fa-regular fa-folder" style="font-size:25px; color: #FFD43B;"></i> <span class="folder">${item.name}</span>`;
 
                         const childrenContainer = document.createElement("div");
                         childrenContainer.classList.add("children");
 
-                        div.querySelector(".folder").onclick = () => {
+                        section.querySelector(".folder").onclick = () => {
                             if (childrenContainer.innerHTML.trim() === "") {
                                 loadFolder(item.fullPath, childrenContainer);
                             } else {
                                 childrenContainer.innerHTML = "";
                             }
                         };
-
-                        div.appendChild(childrenContainer);
-                        
-
+                        section.appendChild(childrenContainer);
                     } else {
-                        div.innerHTML = `<i class="fa-regular fa-file  fa-shake"" style="font-size:25px; color:#74C0FC"></i> ${item.name}`;
-                        div.onclick = () => downloadFile(item.fullPath);
-                        div.style.cursor='pointer'
+                        section.innerHTML = `<i class="fa-regular fa-file  fa-beat"" style="font-size:25px; color:#74C0FC"></i> ${item.name}`;
+                        section.onclick = () => downloadFile(item.fullPath);
+                        section.style.cursor='pointer'
                     }
 
-                    container.appendChild(div);
+                    container.appendChild(section);
                 });
             });
     }
@@ -76,6 +108,49 @@
         // Simple redirect triggers download
        window.location.href = "/api/download?path=" + encodeURIComponent(filePath);
     }
+
+    document.addEventListener('click',(e)=>{
+        const clicked_Element=e.target;
+       const parent_div=clicked_Element.parentElement
+       console.log(parent_div)
+        const siblings = [];
+        if (!parent_div.parentNode) {
+         return siblings;
+         }
+         let sibling = parent_div.parentNode.firstElementChild;
+                    while (sibling) {
+                if (sibling !== parent_div) {
+                    siblings.push(sibling);
+                }
+                sibling = sibling.nextElementSibling;
+            }
+        siblings.forEach(sec=>sec.classList.add('hide'))
+    })
+    document.getElementById('logout').addEventListener('click',()=>{
+        alert('Logout Successful')
+        window.location.href='/logout'
+    }) 
+    
+    document.getElementById('createFolderBtn').addEventListener('click',async ()=>{
+        const folderName = prompt("Enter new folder name:");
+         if (!folderName) return;
+         console.log(folderName)
+         const currentPath=document.getElementById('currentPath').textContent
+         console.log(currentPath)
+         const res=await fetch('/api/create-folder', {
+            method:'POST',
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                parentPath:currentPath,
+                folderName
+            })
+         })
+        const data = await res.json();
+        alert(data.message);
+        loadFolder(currentPath, document.getElementById('explorer'))
+    });
 </script>
 
 </body>

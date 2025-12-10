@@ -8,6 +8,24 @@ const router=express.Router();
 router.post('/register',  async (req , res, next)=>{
     try {
         const {name, email, password}=req.body;
+     const nameRegex = /^[A-Za-z ]{3,40}$/;
+    if (!nameRegex.test(name)) {
+        return res.status(404).json({ message: "Invalid name! Only letters & spaces allowed (3–40 chars)." });
+    }
+
+    // Validate Email
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(404).json({ message: "Invalid email format!" });
+    }
+
+    // Validate Password
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+    if (!passwordRegex.test(password)) {
+        return res.status(404).json({
+            message: "Password must be at least 6 characters and contain letters & numbers."
+        });
+    }
     const userExist=await User.findOne({email})
     if(userExist){
         return res.status(400).json({message: "User Already Exist Please LogIn!"})
@@ -30,6 +48,17 @@ router.post('/register',  async (req , res, next)=>{
 router.post('/login', async (req, res, next)=>{
     try {
         const {email, password}=req.body;
+        const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(email)) {
+        return res.json({ message: "Invalid email format!" });
+    }
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+    if (!passwordRegex.test(password)) {
+        return res.status(400).json({
+            message: "Password must be at least 6 characters and contain letters & numbers."
+        });
+    }
+        
         const user=await User.findOne({email})
         if(!user){
             return res.status(401).json({message: "Invalid Email"})

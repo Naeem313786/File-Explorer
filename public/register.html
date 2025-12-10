@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <style>
+        #login{
+            padding: 12px;
+            border: none;
+            outline: none;
+            color: rgb(28, 28, 160);
+            background: transparent;
+            font-size: 18px;
+            cursor: pointer;
+            margin-left: -10px;
+        }
+        #login:hover{
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -15,9 +30,8 @@
 
         <button type="submit">Register</button>
     </form>
-
     <p>Already have an account?  
-        <a href="./login.html">Login</a>
+     <button id="login">LogIn</button>
     </p>
 </div>
   <script>
@@ -35,7 +49,15 @@
         })
         const data=await res.json();
         alert(data.message);
-        window.location.href="/login.html"
+        if(res.status==200 || res.status==400){
+            window.location.href='/login'
+        }
+        else{
+             window.location.href='/register'
+        }
+    })
+    document.getElementById('login').addEventListener('click',()=>{
+        window.location.href='/login'
     })
   </script>
 </body>
