@@ -77,7 +77,7 @@ router.post('/login', async (req, res, next)=>{
       secure: false,  // set true in production (https)
       sameSite: "lax",
       maxAge: 24 * 60 * 60 * 1000 // 1 day
-  }).json({ message: "Login successful" });
+  }).status(200).json({ message: "Login successful" });
     } catch (error) {
         return res.status(500).send('Internal server Error', error)
     }
