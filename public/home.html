@@ -87,9 +87,14 @@
                         };
                         section.appendChild(childrenContainer);
                     } else {
-                        section.innerHTML = `<i class="fa-regular fa-file  fa-beat"" style="font-size:25px; color:#74C0FC"></i> ${item.name}`;
-                        section.onclick = () => downloadFile(item.fullPath);
-                        section.style.cursor='pointer'
+                        // section.innerHTML = `<i class="fa-regular fa-file  fa-beat"" style="font-size:25px; color:#74C0FC"></i> ${item.name}`;
+                        // section.onclick = () => downloadFile(item.fullPath);
+                        // section.style.cursor='pointer'
+                        const article=document.createElement('article')
+                        article.innerHTML = `<i class="fa-regular fa-file  fa-beat"" style="font-size:25px; color:#74C0FC"></i> ${item.name}`;
+                        article.onclick = () => downloadFile(item.fullPath);
+                        article.style.cursor='pointer'
+                        container.appendChild(article)
                     }
 
                     container.appendChild(section);
@@ -109,8 +114,12 @@
        window.location.href = "/api/download?path=" + encodeURIComponent(filePath);
     }
 
-    document.addEventListener('click',(e)=>{
-        const clicked_Element=e.target;
+    document.addEventListener('click', function (event) {
+  // Check if the clicked element (event.target) matches the selector '.folder'
+  if (event.target.matches('.folder')) {
+    console.log('A folder was clicked via delegation!');
+   // event.target.style.border = '2px solid red';
+    const clicked_Element=event.target;
        const parent_div=clicked_Element.parentElement
        console.log(parent_div)
         const siblings = [];
@@ -118,14 +127,33 @@
          return siblings;
          }
          let sibling = parent_div.parentNode.firstElementChild;
-                    while (sibling) {
+        while (sibling) {
                 if (sibling !== parent_div) {
                     siblings.push(sibling);
                 }
                 sibling = sibling.nextElementSibling;
             }
         siblings.forEach(sec=>sec.classList.add('hide'))
-    })
+  }
+});
+
+    // document.addEventListener('click',(e)=>{
+    //     const clicked_Element=e.target;
+    //    const parent_div=clicked_Element.parentElement
+    //    console.log(parent_div)
+    //     const siblings = [];
+    //     if (!parent_div.parentNode) {
+    //      return siblings;
+    //      }
+    //      let sibling = parent_div.parentNode.firstElementChild;
+    //                 while (sibling) {
+    //             if (sibling !== parent_div) {
+    //                 siblings.push(sibling);
+    //             }
+    //             sibling = sibling.nextElementSibling;
+    //         }
+    //     siblings.forEach(sec=>sec.classList.add('hide'))
+    // })
     document.getElementById('logout').addEventListener('click',()=>{
         alert('Logout Successful')
         window.location.href='/logout'
